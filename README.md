@@ -1,4 +1,4 @@
-# RHEL 10 Image Mode sealed-image lab
+# RHEL 10 Image Mode Sealed-Image Demo
 
 This lab builds on [Red Hat's official sealing example](https://github.com/redhat-cop/rhel-bootc-examples/tree/main/sealing) and demonstrates a RHEL 10.3 Image Mode host protected by:
 
@@ -69,7 +69,7 @@ openssl req -new -x509 -newkey rsa:2048 -nodes -sha256 -days 3650 \
   -keyout db.key -out db.crt
 openssl x509 -in db.crt -outform DER -out db.cer
 
-# Copy the public certificate keys to the Fedora Host in a home user path
+# Copy the public certificate keys to the Fedora Host in a home user path. These will be passed to bcvk to deploy the VM successfully.
 ssh <fedora-user>@<fedora-ip> install -d -m 0700 <path>/target/keys
 scp PK.crt KEK.crt db.crt GUID.txt \
   <fedora-user>@<fedora-ip>:<path>/target/keys/
