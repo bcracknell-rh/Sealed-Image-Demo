@@ -264,14 +264,13 @@ virt-manager --connect qemu:///session
 ```
 
 Open the VM in virt-manager
-![[img/virt-manager-sealed.png]]
+![Sealed VM in virt-manager](img/virt-manager-sealed.png)
 
 Expected result: the UEFI firmware refuses to load the UKI, typically with an
 `Access denied` message. This is the expected Secure Boot protection: the
 firmware does not trust the alternate signing certificate.
 
-![[img/bad-key-denial.png]]
-
+![Bad key denial](img/bad-key-denial.png)
 
 ### Recover the lab VM
 
@@ -294,7 +293,8 @@ firmware does not trust the alternate signing certificate.
    ```
 
 This will remove the bad image from `queued` so that a reboot won't boot the bad image
-![[img/bad-key-denial.png]]
+![Rollback queued](img/rollback-queued.png)
+
 6. Reboot and confirm that the trusted image remains the default.
 
 Alternatively you could disable Secure Boot in the UEFI device manager which can be useful to diagnose a lab VM, but it permits the untrusted OS to boot. Do not use that as the normal recovery method and re-enable Secure Boot before treating the VM as trusted.
