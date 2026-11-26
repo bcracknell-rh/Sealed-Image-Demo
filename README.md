@@ -299,40 +299,6 @@ This will remove the bad image from `queued` so that a reboot won't boot the bad
 
 Alternatively you could disable Secure Boot in the UEFI device manager which can be useful to diagnose a lab VM, but it permits the untrusted OS to boot. Do not use that as the normal recovery method and re-enable Secure Boot before treating the VM as trusted.
 
-## Troubleshooting: ComposeFS digest mismatch
-
-If `bootc switch` reports an error like the following, it has rejected the
-image before it was queued or rebooted:
-
-```text
-The UKI ... embedded composefs= digest ... doesn't match any of 4 supported
-xattr filtering mode/EROFS format version combinations
-```
-
-This is distinct from the wrong-key exercise. It means the ComposeFS digest in
-the UKI does not match the root filesystem reconstructed from the OCI image.
-
-In this lab, the working remediation was to revert unvalidated Containerfile
-changes that added extra packages, a Quadlet, and offline firewalld state. Keep
-the minimal, validated Containerfile as the baseline. Reintroduce changes one
-at a time, seal every resulting image afresh, and test each image using a new
-tag.
-
-Useful diagnostics on the builder:
-
-```bash
-bootc --version
-podman version
-buildah version
-
-image_id=$(podman image inspect "$IMAGE_REF" --format '{{.Id}}')
-bootc container compute-composefs-digest-from-storage "$image_id"
-```
-
-If a ComposeFS digest mismatch occurs, do not reboot into the image. Preserve
-the image digest, Containerfile, build logs, and the output above for support
-investigation.
-
 ## References
 
 - [RHEL 10: Cryptographic sealing of bootc images](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/cryptographic-sealing-of-bootc-images-technology-preview)
