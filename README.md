@@ -275,7 +275,7 @@ firmware does not trust the alternate signing certificate.
 ### Recover the lab VM
 
 1. Force reset the vm and when it is booting tap the escape key repeatedly until you see the below
-[Boot options](img/boot-select.png)
+![Boot options](img/boot-select.png)
 2. Select the alternate boot. This can take trial and error. It should be the `10.3-0` version
 3. If the good key image is selected you will see a blank screen. Now you can go back to your Fedora host cli and ssh in using `bcvk libvirt ssh sealed-demo`
 4. After booting the trusted deployment, verify it with:
